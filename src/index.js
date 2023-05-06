@@ -19,21 +19,43 @@ const renderListCountries = (list) => {
         `
         
     });
-    console.log('it is list')
-    console.table(list)
+   
+ 
 }
 const renderOneCountry = (country) => {
+    let languagesList = ''
+    let languagesObj = country.languages
+    for (let item in languagesObj) {
+        languagesList += ` ${languagesObj[item]}`
+    }
+    
     countriesList.innerHTML = ''
-
-    console.log('it is one country')
-    console.log(country)
+    countryInfo.innerHTML = `
+        <div class="countryMainInfo">
+            <img class="country-flag" src="${country.flags.svg}" alt="${country.flags.alt}">
+            <p class="country-name">${country.name.official}</p>
+        </div>
+        <p class="countryInfoItem"> 
+        <span class = "text-bold">Capital:</span>
+            ${country.capital.map((capital) => capital)}
+        </p>
+        <p class="countryInfoItem"> 
+        <span class = "text-bold">Languages:</span>
+            ${languagesList}
+        </p>
+        <p class="countryInfoItem"> 
+        <span class = "text-bold">Population:</span>
+            ${country.population}
+        </p>
+    `
+   
 }
 const renderToMuch = () =>{
     Notify.info("Too many matches found. Please enter a more specific name.")
-    console.log('it is to many countries')
+   
 }
 const renderNotFound = () => {
-    console.log('it is not found')
+    
     Notify.info("Oops, there is no country with that name")
 }
 

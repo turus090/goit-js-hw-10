@@ -11,3 +11,15 @@
 .country-flag{
     width:50px;
 }
+.country-info{
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+}
+.countryMainInfo{
+    display:flex;
+    align-items: center;
+}
+.text-bold{
+    font-weight: 700;
+}
