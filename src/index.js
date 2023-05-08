@@ -3,13 +3,16 @@ import fetchCountries from './fetchCountries';
 import './css/styles.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio'
 let listCountries
+
 const countriesList =  document.querySelector('.country-list')
 const countryInfo = document.querySelector('.country-info')
 const DEBOUNCE_DELAY = 300;
-
-const renderListCountries = (list) => {
+const clearResult = () => {
     countryInfo.innerHTML = ''
     countriesList.innerHTML = ''
+}
+const renderListCountries = (list) => {
+   
     list.forEach(country => {
         countriesList.innerHTML += `
         <li class="country-item">
@@ -61,6 +64,7 @@ const renderNotFound = () => {
 
 const searchBox = document.querySelector('#search-box');
 searchBox.addEventListener('input', debounce(() =>{
+    clearResult()
     fetchCountries(searchBox.value.trim())
     .then(res => {
         if (res.status == 404){
