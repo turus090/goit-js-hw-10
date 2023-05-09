@@ -1,4 +1,4 @@
-import debounce from 'lodash.debounce';
+import debounce from 'lodash.debounce'
 import fetchCountries from './fetchCountries';
 import './css/styles.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio'
@@ -62,29 +62,30 @@ const renderNotFound = () => {
     Notify.info("Oops, there is no country with that name")
 }
 
+const handleInput = () => {
+        clearResult()
+            fetchCountries(searchBox.value.trim())
+            .then(res => {
+                if (res.status == 404){
+                    return []
+                } else { 
+                    return res.json()
+                }
+            })
+            .then(data => {
+                if (data.length == 0){
+                    renderNotFound()
+                }
+                if (data.length > 10){
+                    renderToMuch()
+                }
+                if (data.length == 1){
+                    renderOneCountry(data[0])
+                }
+                if (data.length >= 2 && data.length <= 10){
+                    renderListCountries(data)
+                }
+            })
+}
 const searchBox = document.querySelector('#search-box');
-searchBox.addEventListener('input', debounce(() =>{
-    clearResult()
-    fetchCountries(searchBox.value.trim())
-    .then(res => {
-        if (res.status == 404){
-            return []
-        } else { 
-            return res.json()
-        }
-    })
-    .then(data => {
-        if (data.length == 0){
-            renderNotFound()
-        }
-        if (data.length > 10){
-            renderToMuch()
-        }
-        if (data.length == 1){
-            renderOneCountry(data[0])
-        }
-        if (data.length >= 2 && data.length <= 10){
-            renderListCountries(data)
-        }
-    })
-}), DEBOUNCE_DELAY)
+searchBox.addEventListener('input', ()=>setTimeout(debounce(handleInput,DEBOUNCE_DELAY),1000))
